@@ -271,7 +271,7 @@ do -- Player Metatable
                 Image.Visible = false
                 return
             end
-            local Humanoid = Character:WaitForChild("Humanoid
+            local Humanoid = Character:WaitForChild("Humanoid")
             if Humanoid then
             local Current_Health, Health_Maximum = ESP:Get_Health(self.Player), Humanoid.MaxHealth
             if Head and HumanoidRootPart and Current_Health > 0 then
