@@ -317,7 +317,7 @@ do -- Player Metatable
 
                     -- Offsets
                     local Top_Offset = 3
-                    local Bottom_Offset = Y_Maximal + 3
+                    local Bottom_Offset = Y_Maximal + 1
                     local Left_Offset = 0
                     local Right_Offset = 0
 
@@ -432,8 +432,8 @@ do -- Player Metatable
                         Tool.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, Tool.TextBounds.Y - Box_Size.Y + Top_Offset) 
                         Top_Offset = Top_Offset + 10
                     elseif Tool_Position == "Bottom" then
-                        Tool.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset) 
-                        Bottom_Offset = Bottom_Offset + 11
+                        Tool.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset + 0.3) 
+                        Bottom_Offset = Bottom_Offset + 10
                     elseif Tool_Position == "Left" then
                         if Healthbar_Position == "Left" then
                             Tool.Position = Health_Left_Pos_Outline - Vector2.new(Tool.TextBounds.X/2 - 2 + 4, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
