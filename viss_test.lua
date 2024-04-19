@@ -470,26 +470,9 @@ do -- Player Metatable
                      -- WeaponIcons
                     local WeaponIcons_Settings = ESP.Settings.Weapon_Icons
                     local WeaponIcons_Position = WeaponIcons_Settings.Position
-                    if WeaponIcons_Position == "Top" then 
-                        WeaponIcons.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, WeaponIcons.TextBounds.Y - Box_Size.Y + Top_Offset) 
-                        Top_Offset = Top_Offset + 10
-                    elseif WeaponIcons_Position == "Bottom" then
-                        WeaponIcons.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset) 
+                    if WeaponIcons_Position == "Bottom" then
+                        WeaponIcons.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset + 5) 
                         Bottom_Offset = Bottom_Offset + 10
-                    elseif WeaponIcons_Position == "Left" then
-                        if Healthbar_Position == "Left" then
-                            WeaponIcons.Position = Health_Left_Pos_Outline - Vector2.new(WeaponIcons.TextBounds.X/2 - 2 + 4, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
-                        else
-                            WeaponIcons.Position = Health_Left_Pos_Outline - Vector2.new(WeaponIcons.TextBounds.X/2 - 2, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
-                        end
-                        Left_Offset = Left_Offset + 10
-                    elseif WeaponIcons_Position == "Right" then
-                        if Healthbar_Position == "Right" then
-                            WeaponIcons.Position = Vector2.new(X_Maximal + Box_Size.X + 4 + 4 + WeaponIcons.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
-                        else
-                            WeaponIcons.Position = Vector2.new(X_Maximal + Box_Size.X + 3 + WeaponIcons.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
-                        end
-                        Right_Offset = Right_Offset + 10
                     end
                     WeaponIcons.Color = Is_Highlighted and Highlight_Color or WeaponIcons_Settings.Color
                     WeaponIcons.Transparency = 0
