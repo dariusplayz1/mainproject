@@ -432,7 +432,7 @@ function Player_Metatable:Update()
                     Tool.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, Tool.TextBounds.Y - Box_Size.Y + Top_Offset) 
                     Top_Offset = Top_Offset + 10
                 elseif Tool_Position == "Bottom" then
-                    Tool.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset + 7) 
+                    Tool.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset + 5) 
                     Bottom_Offset = Bottom_Offset + 10
                 elseif Tool_Position == "Left" then
                     if Healthbar_Position == "Left" then
