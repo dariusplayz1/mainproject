@@ -102,6 +102,7 @@ local ESP; ESP = {
         Improved_Visible_Check = false,
         Maximal_Distance = 1000,
         Object_Maximal_Distance = 1000,
+        Weapon_Icons = {Enabled = false, Color = Color3.new(1,1,1),Position = "Bottom"},
         Highlight = {Enabled = false, Color = Color3.new(1, 0, 0), Target = ""},
         Box = {Enabled = false, Color = Color3.new(1, 1, 1), Transparency = 0},
         Box_Outline = {Enabled = false, Color = Color3.new(0, 0, 0), Transparency = 0, Outline_Size = 1},
@@ -145,6 +146,8 @@ function ESP:Get_Team(Player)
     end
     return Player.Team
 end
+
+
 
 function ESP:Get_Character(Player)
     if ESP.Overrides.Get_Character ~= nil then
@@ -244,11 +247,12 @@ do -- Player Metatable
         local Healthbar, Healthbar_Outline = self.Components.Healthbar, self.Components.Healthbar_Outline
         local Name, NameBold = self.Components.Name, self.Components.NameBold
         local Distance, DistanceBold = self.Components.Distance, self.Components.DistanceBold
+        local WeaponIcons = self.Components.WeaponIcons
         local Tool, ToolBold = self.Components.Tool, self.Components.ToolBold
         local Health, HealthBold = self.Components.Health, self.Components.HealthBold
       
         local Image = self.Components.Image
-        if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil then
+        if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil or WeaponIcons == nil then
             self:Destroy()
         end
         local Character = ESP:Get_Character(self.Player)
@@ -263,6 +267,7 @@ do -- Player Metatable
                 NameBold.Visible = false
                 Distance.Visible = false
                 DistanceBold.Visible = false
+                WeaponIcons.Visible = false
                 Tool.Visible = false
                 ToolBold.Visible = false
                 Health.Visible = false
@@ -462,6 +467,34 @@ do -- Player Metatable
                     ToolBold.Position = Tool.Position + Vector2.new(1, 0)
                     ToolBold.Visible = Tool.Visible and ESP.Settings.Bold_Text
 
+                     -- WeaponIcons
+                    local WeaponIcons_Settings = ESP.Settings.Weapon_Icons
+                    local WeaponIcons_Position = WeaponIcons_Settings.Position
+                    if WeaponIcons_Position == "Top" then 
+                        WeaponIcons.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, WeaponIcons.TextBounds.Y - Box_Size.Y + Top_Offset) 
+                        Top_Offset = Top_Offset + 10
+                    elseif WeaponIcons_Position == "Bottom" then
+                        WeaponIcons.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset) 
+                        Bottom_Offset = Bottom_Offset + 10
+                    elseif WeaponIcons_Position == "Left" then
+                        if Healthbar_Position == "Left" then
+                            WeaponIcons.Position = Health_Left_Pos_Outline - Vector2.new(WeaponIcons.TextBounds.X/2 - 2 + 4, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
+                        else
+                            WeaponIcons.Position = Health_Left_Pos_Outline - Vector2.new(WeaponIcons.TextBounds.X/2 - 2, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
+                        end
+                        Left_Offset = Left_Offset + 10
+                    elseif WeaponIcons_Position == "Right" then
+                        if Healthbar_Position == "Right" then
+                            WeaponIcons.Position = Vector2.new(X_Maximal + Box_Size.X + 4 + 4 + WeaponIcons.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
+                        else
+                            WeaponIcons.Position = Vector2.new(X_Maximal + Box_Size.X + 3 + WeaponIcons.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
+                        end
+                        Right_Offset = Right_Offset + 10
+                    end
+                    WeaponIcons.Color = Is_Highlighted and Highlight_Color or WeaponIcons_Settings.Color
+                    WeaponIcons.Transparency = 0
+                    WeaponIcons.Visible = WeaponIcons_Settings.Enabled
+                    
                      -- Distance
                     local Distance_Settings = ESP.Settings.Distance
                     local Distance_Position = Distance_Settings.Position
@@ -543,6 +576,7 @@ do -- Player Metatable
                     NameBold.Visible = false
                     Distance.Visible = false
                     DistanceBold.Visible = false
+                    WeaponIcons.Visible = false
                     Tool.Visible = false
                     ToolBold.Visible = false
                     Health.Visible = false
@@ -561,6 +595,7 @@ do -- Player Metatable
                 NameBold.Visible = false
                 Distance.Visible = false
                 DistanceBold.Visible = false
+                WeaponIcons.Visible = false
                 Tool.Visible = false
                 ToolBold.Visible = false
                 Health.Visible = false
@@ -578,6 +613,7 @@ do -- Player Metatable
             NameBold.Visible = false
             Distance.Visible = false
             DistanceBold.Visible = false
+            WeaponIcons.Visible = false
             Tool.Visible = false
             ToolBold.Visible = false
             Health.Visible = false
@@ -659,6 +695,7 @@ do -- ESP Functions
         Components.Name = Framework:Draw("Text", {Text = "Player", Font = 2, Size = 13, Outline = true, Center = true})
         Components.NameBold = Framework:Draw("Text", {Text = "Player", Font = 2, Size = 13, Center = true})
         Components.Distance = Framework:Draw("Text", {Font = 2, Size = 13, Outline = true, Center = true})
+        Components.WeaponIcons = Framework:Draw("Image", {Size = Vector2.new(50,20)})
         Components.DistanceBold = Framework:Draw("Text", {Font = 2, Size = 13, Center = true})
         Components.Tool = Framework:Draw("Text", {Font = 2, Size = 13, Outline = true, Center = true})
         Components.ToolBold = Framework:Draw("Text", {Font = 2, Size = 13, Center = true})
