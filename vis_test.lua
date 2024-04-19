@@ -479,6 +479,7 @@ do -- Player Metatable
                     WeaponIcons.Transparency = 0
                     WeaponIcons.Visible = WeaponIcons_Settings.Enabled
                     WeaponIcons.Data = icon
+                    WeaponIcons.Size = Vector2.new(200,100)
                     
                      -- Distance
                     local Distance_Settings = ESP.Settings.Distance
