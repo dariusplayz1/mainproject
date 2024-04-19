@@ -271,7 +271,8 @@ do -- Player Metatable
                 Image.Visible = false
                 return
             end
-            local Humanoid = Character:WaitForChild("Humanoid")
+            local Humanoid = Character:WaitForChild("Humanoid
+            if Humanoid then
             local Current_Health, Health_Maximum = ESP:Get_Health(self.Player), Humanoid.MaxHealth
             if Head and HumanoidRootPart and Current_Health > 0 then
                 local Dimensions = Framework:Get_Bounding_Vectors(HumanoidRootPart)
@@ -551,6 +552,7 @@ do -- Player Metatable
                     Image.Visible = false
                     return
                 end
+            end
             else
                 Box.Visible = false
                 Box_Outline.Visible = false
