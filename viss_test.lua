@@ -317,7 +317,7 @@ do -- Player Metatable
 
                     -- Offsets
                     local Top_Offset = 3
-                    local Bottom_Offset = Y_Maximal + 1
+                    local Bottom_Offset = Y_Maximal + 1.2
                     local Left_Offset = 0
                     local Right_Offset = 0
 
