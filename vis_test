@@ -257,7 +257,7 @@ do -- Player Metatable
         if Character ~= nil then
             local Head, HumanoidRootPart = Character:FindFirstChild("Head"), Character:FindFirstChild("HumanoidRootPart")
             if not HumanoidRootPart then
-                Weapon_Icon.Visible = false
+                WeaponIcon.Visible = false
                 Box.Visible = false
                 Box_Outline.Visible = false
                 Healthbar.Visible = false
