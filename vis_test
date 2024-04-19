@@ -102,7 +102,6 @@ local ESP; ESP = {
         Improved_Visible_Check = false,
         Maximal_Distance = 1000,
         Object_Maximal_Distance = 1000,
-        Weapon_Icons = {Enabled = false, Color = Color3.new(1,1,1)},
         Highlight = {Enabled = false, Color = Color3.new(1, 0, 0), Target = ""},
         Box = {Enabled = false, Color = Color3.new(1, 1, 1), Transparency = 0},
         Box_Outline = {Enabled = false, Color = Color3.new(0, 0, 0), Transparency = 0, Outline_Size = 1},
@@ -242,7 +241,6 @@ do -- Player Metatable
     end
     function Player_Metatable:Update()
         local Box, Box_Outline = self.Components.Box, self.Components.Box_Outline
-        local WeaponIcon = self.Components.WeaponIcon
         local Healthbar, Healthbar_Outline = self.Components.Healthbar, self.Components.Healthbar_Outline
         local Name, NameBold = self.Components.Name, self.Components.NameBold
         local Distance, DistanceBold = self.Components.Distance, self.Components.DistanceBold
@@ -250,14 +248,13 @@ do -- Player Metatable
         local Health, HealthBold = self.Components.Health, self.Components.HealthBold
       
         local Image = self.Components.Image
-        if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil or WeaponIcon == nil then
+        if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil then
             self:Destroy()
         end
         local Character = ESP:Get_Character(self.Player)
         if Character ~= nil then
             local Head, HumanoidRootPart = Character:FindFirstChild("Head"), Character:FindFirstChild("HumanoidRootPart")
             if not HumanoidRootPart then
-                WeaponIcon.Visible = false
                 Box.Visible = false
                 Box_Outline.Visible = false
                 Healthbar.Visible = false
@@ -320,7 +317,7 @@ do -- Player Metatable
 
                     -- Offsets
                     local Top_Offset = 3
-                    local Bottom_Offset = Y_Maximal + 2
+                    local Bottom_Offset = Y_Maximal + 1
                     local Left_Offset = 0
                     local Right_Offset = 0
 
@@ -428,6 +425,42 @@ do -- Player Metatable
                     NameBold.Text = Character.Name
                     NameBold.Visible = Name.Visible and ESP.Settings.Bold_Text
 
+                    -- Distance
+                    local Distance_Settings = ESP.Settings.Distance
+                    local Distance_Position = Distance_Settings.Position
+                    if Distance_Position == "Top" then 
+                        Distance.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, Distance.TextBounds.Y - Box_Size.Y + Top_Offset) 
+                        Top_Offset = Top_Offset + 10
+                    elseif Distance_Position == "Bottom" then
+                        Distance.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset) 
+                        Bottom_Offset = Bottom_Offset + 10
+                    elseif Distance_Position == "Left" then
+                        if Healthbar_Position == "Left" then
+                            Distance.Position = Health_Left_Pos_Outline - Vector2.new(Distance.TextBounds.X/2 - 2 + 4, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
+                        else
+                            Distance.Position = Health_Left_Pos_Outline - Vector2.new(Distance.TextBounds.X/2 - 2, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
+                        end
+                        Left_Offset = Left_Offset + 10
+                    elseif Distance_Position == "Right" then
+                        if Healthbar_Position == "Right" then
+                            Distance.Position = Vector2.new(X_Maximal + Box_Size.X + 4 + 4 + Distance.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
+                        else
+                            Distance.Position = Vector2.new(X_Maximal + Box_Size.X + 3 + Distance.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
+                        end
+                        Right_Offset = Right_Offset + 10
+                    end
+                    Distance.Text = Meter_Distance.."m"
+                    Distance.Color = Is_Highlighted and Highlight_Color or Distance_Settings.Color
+                    Distance.OutlineColor = Distance_Settings.OutlineColor
+                    Distance.Transparency = Framework:Drawing_Transparency(Distance_Settings.Transparency)
+                    Distance.Visible = Distance_Settings.Enabled
+                    DistanceBold.Text = Meter_Distance.."m"
+                    DistanceBold.Color = Is_Highlighted and Highlight_Color or Distance_Settings.Color
+                    DistanceBold.OutlineColor = Distance_Settings.OutlineColor
+                    DistanceBold.Transparency = Framework:Drawing_Transparency(Distance_Settings.Transparency)
+                    DistanceBold.Position = Distance.Position + Vector2.new(1, 0)
+                    DistanceBold.Visible = Distance.Visible and ESP.Settings.Bold_Text
+
                     -- Tool
                     local Tool_Settings = ESP.Settings.Tool
                     local Tool_Position = Tool_Settings.Position
@@ -464,42 +497,6 @@ do -- Player Metatable
                     ToolBold.Transparency = Framework:Drawing_Transparency(Tool_Settings.Transparency)
                     ToolBold.Position = Tool.Position + Vector2.new(1, 0)
                     ToolBold.Visible = Tool.Visible and ESP.Settings.Bold_Text
-
-                    -- Distance
-                    local Distance_Settings = ESP.Settings.Distance
-                    local Distance_Position = Distance_Settings.Position
-                    if Distance_Position == "Top" then 
-                        Distance.Position = Vector2.new(X_Maximal + Box_Size.X / 2, Box_Position.Y) - Vector2.new(0, Distance.TextBounds.Y - Box_Size.Y + Top_Offset) 
-                        Top_Offset = Top_Offset + 10
-                    elseif Distance_Position == "Bottom" then
-                        Distance.Position = Vector2.new(Box_Size.X / 2 + Box_Position.X, Bottom_Offset) 
-                        Bottom_Offset = Bottom_Offset + 10
-                    elseif Distance_Position == "Left" then
-                        if Healthbar_Position == "Left" then
-                            Distance.Position = Health_Left_Pos_Outline - Vector2.new(Distance.TextBounds.X/2 - 2 + 4, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
-                        else
-                            Distance.Position = Health_Left_Pos_Outline - Vector2.new(Distance.TextBounds.X/2 - 2, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Left_Offset)
-                        end
-                        Left_Offset = Left_Offset + 10
-                    elseif Distance_Position == "Right" then
-                        if Healthbar_Position == "Right" then
-                            Distance.Position = Vector2.new(X_Maximal + Box_Size.X + 4 + 4 + Distance.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
-                        else
-                            Distance.Position = Vector2.new(X_Maximal + Box_Size.X + 3 + Distance.TextBounds.X / 2, Box_Position.Y + 2) - Vector2.new(Box_Size.X, -(100 * Health_Left_Size_Outline.Y / 100) + 2 - Right_Offset)
-                        end
-                        Right_Offset = Right_Offset + 10
-                    end
-                    Distance.Text = Meter_Distance.."m"
-                    Distance.Color = Is_Highlighted and Highlight_Color or Distance_Settings.Color
-                    Distance.OutlineColor = Distance_Settings.OutlineColor
-                    Distance.Transparency = Framework:Drawing_Transparency(Distance_Settings.Transparency)
-                    Distance.Visible = Distance_Settings.Enabled
-                    DistanceBold.Text = Meter_Distance.."m"
-                    DistanceBold.Color = Is_Highlighted and Highlight_Color or Distance_Settings.Color
-                    DistanceBold.OutlineColor = Distance_Settings.OutlineColor
-                    DistanceBold.Transparency = Framework:Drawing_Transparency(Distance_Settings.Transparency)
-                    DistanceBold.Position = Distance.Position + Vector2.new(1, 0)
-                    DistanceBold.Visible = Distance.Visible and ESP.Settings.Bold_Text
 
                     -- Health
                     local Health_Settings = ESP.Settings.Health
