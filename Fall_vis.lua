@@ -248,7 +248,9 @@ do -- Player Metatable
         local Distance, DistanceBold = self.Components.Distance, self.Components.DistanceBold
         local Tool, ToolBold = self.Components.Tool, self.Components.ToolBold
         local Health, HealthBold = self.Components.Health, self.Components.HealthBold
-      
+
+        print(Box_Outline)
+        
         local Image = self.Components.Image
         if Box == nil or Box_Outline == nil or Healthbar == nil or Healthbar_Outline == nil or Name == nil or NameBold == nil or Distance == nil or DistanceBold == nil or Tool == nil or ToolBold == nil or Health == nil or HealthBold == nil then
             self:Destroy()
