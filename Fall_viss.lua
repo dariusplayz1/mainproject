@@ -652,8 +652,8 @@ do -- ESP Functions
             self:GetObject(Instance):Destroy()
         end
         local Components = Object.Components
-        Components.Box = Framework:Draw("Square", {Thickness = 1, ZIndex = 2})
-        Components.Box_Outline = Framework:Draw("Square", {Thickness = 3, ZIndex = 1})
+        Components.Box_Outline = Framework:Draw("Square"); Components.Box_Outline.Thickness = 3
+        Components.Box = Framework:Draw("Square"); Components.Box.Thickness = 1
         Components.Healthbar = Framework:Draw("Square", {Thickness = 1, ZIndex = 2, Filled = true})
         Components.Healthbar_Outline = Framework:Draw("Square", {Thickness = 3, ZIndex = 1, Filled = true})
         Components.Name = Framework:Draw("Text", {Text = "Player", Font = 2, Size = 13, Outline = true, Center = true})
