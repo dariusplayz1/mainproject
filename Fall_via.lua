@@ -323,6 +323,15 @@ do -- Player Metatable
                     local Left_Offset = 0
                     local Right_Offset = 0
 
+                    
+                    local Box_Outline_Settings = ESP.Settings.Box_Outline
+                    Box_Outline.Size = Box_Size
+                    Box_Outline.Position = Box_Position
+                    Box_Outline.Color = Box_Outline_Settings.Color
+                    Box_Outline.Thickness = Box.Thickness + 2
+                    Box_Outline.Transparency = Framework:Drawing_Transparency(Box_Outline_Settings.Transparency)
+                    Box_Outline.Visible = Box_Settings.Enabled and Box_Outline_Settings.Enabled or false
+
                     -- Box
                     local Box_Settings = ESP.Settings.Box
                     Box.Size = Box_Size
@@ -331,15 +340,6 @@ do -- Player Metatable
                     Box.Transparency = Framework:Drawing_Transparency(Box_Settings.Transparency)
                     Box.Visible = Box_Settings.Enabled
 
-                    local Box_Outline_Settings = ESP.Settings.Box_Outline
-                    Box_Outline.Size = Box_Size
-                    Box_Outline.Position = Box_Position
-                    Box_Outline.Color = Box_Outline_Settings.Color
-                    Box_Outline.Thickness = Box_Outline_Settings.Outline_Size + 2
-                    Box_Outline.Transparency = Framework:Drawing_Transparency(Box_Outline_Settings.Transparency)
-                    Box_Outline.Visible = Box_Settings.Enabled and Box_Outline_Settings.Enabled or false
-
-                    print(Box_Outline.Visible)
                     local Image_Settings = ESP.Settings.Image
                     local Image_Enabled = Image_Settings.Enabled
                     if Image_Enabled then
